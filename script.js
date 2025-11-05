@@ -1,9 +1,6 @@
-// Your code here.
-// Get all cube elements and the container
 const cubes = document.querySelectorAll('.cube');
 const container = document.querySelector('.container');
 
-// Function to ensure the cube stays within container bounds
 function keepInBounds(x, y, cube) {
   const containerRect = container.getBoundingClientRect();
   const cubeRect = cube.getBoundingClientRect();
@@ -19,28 +16,29 @@ function keepInBounds(x, y, cube) {
   };
 }
 
-cubes.forEach(cube => {
+cubes.forEach((cube, index) => {
   let isDragging = false;
   let offsetX, offsetY;
 
+  // Initial grid position
+  const row = Math.floor(index / 2);
+  const col = index % 2;
+  cube.style.left = `${col * 100 + 20}px`;
+  cube.style.top = `${row * 100 + 20}px`;
+
   cube.addEventListener('mousedown', (e) => {
     isDragging = true;
-
     const rect = cube.getBoundingClientRect();
     offsetX = e.clientX - rect.left;
     offsetY = e.clientY - rect.top;
-
-    cube.style.zIndex = '1000';  // Bring cube to front
+    cube.style.zIndex = '1000';
   });
 
   document.addEventListener('mousemove', (e) => {
     if (isDragging) {
       let newX = e.clientX - offsetX;
       let newY = e.clientY - offsetY;
-
-      // Keep in bounds
       const boundedPos = keepInBounds(newX, newY, cube);
-
       cube.style.left = `${boundedPos.x - container.offsetLeft}px`;
       cube.style.top = `${boundedPos.y - container.offsetTop}px`;
     }
@@ -49,7 +47,7 @@ cubes.forEach(cube => {
   document.addEventListener('mouseup', () => {
     if (isDragging) {
       isDragging = false;
-      cube.style.zIndex = '1';  // Reset z-index after drop
+      cube.style.zIndex = '1';
     }
   });
 });
