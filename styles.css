@@ -1,37 +1,9 @@
+:root {
+  --fontsize: 16px;
+  --fontcolor: #000000;
+}
+
 body {
-  background: #f2f2f2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-  font-family: Arial, sans-serif;
-}
-
-.container {
-  width: 600px;
-  height: 400px;
-  background: white;
-  border: 2px solid #333;
-  position: relative;
-  padding: 10px;
-  box-sizing: border-box;
-}
-
-.cube {
-  width: 100px;
-  height: 100px;
-  background-color: dodgerblue;
-  color: white;
-  font-size: 36px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  user-select: none;
-  cursor: grab;
-  position: absolute;
-}
-
-.cube:active {
-  cursor: grabbing;
+  font-size: var(--fontsize);
+  color: var(--fontcolor);
 }

@@ -1,52 +1,35 @@
-const cubes = document.querySelectorAll('.cube');
-const container = document.querySelector('.container');
-
-function keepInBounds(x, y, cube) {
-  const containerRect = container.getBoundingClientRect();
-  const cubeRect = cube.getBoundingClientRect();
-
-  const minX = containerRect.left;
-  const minY = containerRect.top;
-  const maxX = containerRect.right - cubeRect.width;
-  const maxY = containerRect.bottom - cubeRect.height;
-
-  return {
-    x: Math.min(Math.max(x, minX), maxX),
-    y: Math.min(Math.max(y, minY), maxY),
-  };
+// Helper to get cookie value
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
 }
 
-cubes.forEach((cube, index) => {
-  let isDragging = false;
-  let offsetX, offsetY;
+// Apply saved preferences on load
+window.onload = () => {
+  const savedSize = getCookie("fontsize");
+  const savedColor = getCookie("fontcolor");
 
-  const row = Math.floor(index / 3);
-  const col = index % 3;
-  cube.style.left = `${col * 120 + 20}px`;
-  cube.style.top = `${row * 120 + 20}px`;
+  if (savedSize) {
+    document.documentElement.style.setProperty("--fontsize", savedSize + "px");
+    document.getElementById("fontsize").value = savedSize;
+  }
 
-  cube.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    const rect = cube.getBoundingClientRect();
-    offsetX = e.clientX - rect.left;
-    offsetY = e.clientY - rect.top;
-    cube.style.zIndex = '1000';
-  });
+  if (savedColor) {
+    document.documentElement.style.setProperty("--fontcolor", savedColor);
+    document.getElementById("fontcolor").value = savedColor;
+  }
+};
 
-  document.addEventListener('mousemove', (e) => {
-    if (isDragging) {
-      let newX = e.clientX - offsetX;
-      let newY = e.clientY - offsetY;
-      const boundedPos = keepInBounds(newX, newY, cube);
-      cube.style.left = `${boundedPos.x - container.offsetLeft}px`;
-      cube.style.top = `${boundedPos.y - container.offsetTop}px`;
-    }
-  });
+// Handle form submit & save to cookies
+document.getElementById("settingsForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const size = document.getElementById("fontsize").value;
+  const color = document.getElementById("fontcolor").value;
 
-  document.addEventListener('mouseup', () => {
-    if (isDragging) {
-      isDragging = false;
-      cube.style.zIndex = '1';
-    }
-  });
+  document.cookie = `fontsize=${size}; path=/`;
+  document.cookie = `fontcolor=${color}; path=/`;
+
+  document.documentElement.style.setProperty("--fontsize", size + "px");
+  document.documentElement.style.setProperty("--fontcolor", color);
 });
