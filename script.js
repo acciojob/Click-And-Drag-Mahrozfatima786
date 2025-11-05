@@ -20,9 +20,8 @@ cubes.forEach((cube, index) => {
   let isDragging = false;
   let offsetX, offsetY;
 
-  // Initial grid positioning
-  const row = Math.floor(index / 2);
-  const col = index % 2;
+  const row = Math.floor(index / 3);
+  const col = index % 3;
   cube.style.left = `${col * 120 + 20}px`;
   cube.style.top = `${row * 120 + 20}px`;
 
