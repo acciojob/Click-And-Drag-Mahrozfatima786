@@ -20,11 +20,11 @@ cubes.forEach((cube, index) => {
   let isDragging = false;
   let offsetX, offsetY;
 
-  // Initial grid position
+  // Initial grid positioning
   const row = Math.floor(index / 2);
   const col = index % 2;
-  cube.style.left = `${col * 100 + 20}px`;
-  cube.style.top = `${row * 100 + 20}px`;
+  cube.style.left = `${col * 120 + 20}px`;
+  cube.style.top = `${row * 120 + 20}px`;
 
   cube.addEventListener('mousedown', (e) => {
     isDragging = true;
